@@ -1,0 +1,157 @@
+#+title:     Clunk
+#+author:    Logan Barnett
+#+email:     logustus@gmail.com
+#+date:      <2024-05-18 Sat>
+#+language:  en
+#+file_tags:
+#+tags:
+
+* Clunk
+=clunk= is a command line application for interacting generically with APIs in a
+data centric manner while still embracing command line ergonomics.  Clunk seeks
+equal ergonomics for humans and robots alike.
+
+** Principals
+
+For humans, Clunk provides very discoverable completions.  Not sure what the
+name is for an entity in an API?  Press tab and Clunk will present options to
+your shell.
+
+For robots, Clunk provides the same discoverable completions programatically, as
+well as pipe-able data forms.
+
+Clunk favors a noun + verb approach.  The entities for things in a given data
+ecosystem rarely have aliased names, but the operations performed on them tend
+to vary wildly.  For example, you can "run" a program, but there is also
+"launch", "open", "execute", "start", and others.  In Clunk's vernacular, you
+would use something like =clunk program run=.
+
+** Why the name Clunk?
+
+Clunk stands for Command Line Universal Names Are Hard.
+
+It also didn't seem to be taken as of [2024-05-18 Sat].
+** Why not use existing CLI tools?
+
+By existing CLI tools, we mean just about any =<name-of-api>-api= tool.  But
+this can also refer to other sources that aren't just wrappers around HTTP APIs.
+
+Clunk can potentially harness these tools, but more importantly it seeks a
+_standard_ means of utilizing them, both via its interface but also via data
+centric operations.  In other words, Clunk provides both a better and more
+consistent means of interacting with data sets.
+
+In doing so, Clunk becomes universal automation glue.
+
+** Usage
+** Installing
+
+Unfortunately this project is in its infancy.  To install it, clone the
+repository and use =cargo run= to execute Clunk.  Instructions for producing a
+binary that can be utilized on your system are forthcoming, but can also be
+found with your favorite search tool by qualifying the search with =rust=.
+
+** Roadmap
+*** 1. Elementary Particle [0/6]
+
+This is the earliest, usable state of Clunk.  It's expected to only be usable by
+the author in the narrowest of circumstances.
+
+At this stage, we simply seek to add one HTTP API that the author frequently
+uses, to start leveraging its usefulness.  This will be the =Stash= / =Bitbucket
+Server= / =Bitbucket Datacenter= API.  It will only approve pull requests, and
+list open pull requests.
+
+**** TODO Parse arguments
+**** TODO Read API Token
+
+Use the same trick in [[https://github.com/loganbarnett/jj/blob/a479262a2561601ea269722390429de82243b667/README.org#L49-L52][jj]] to evaluate a token.  Use a =yaml= file for
+configuration.  TOML has been found to be too rigid for many configuration uses.
+
+**** TODO Provide JSON output
+
+Condensed, single line form is to be used.  Pretty form can come later.
+
+**** TODO Provide human (tabular) output
+
+**** TODO Get Stash pull requests
+**** TODO Get Stash users
+
+*** 2. Atom [0/2]
+
+This is where Clunk should begin to show some promise to the earliest of
+adopters, but adopters are not expected.
+
+**** TODO Allow completions based on the number of arguments already provided
+
+The rough form should look like this:
+
+#+begin_example
+$ clunk stash <tab>
+pr
+user
+#+end_example
+
+And then further still:
+
+#+begin_example
+$ clunk stash pr <tab>
+n: author
+n: approval
+v: approve
+v: show
+#+end_example
+
+And then the final command would look like:
+
+#+begin_example
+$ clunk stash pr show
+#+end_example
+
+Or a more sophisticated version:
+
+#+begin_example
+$ clunk stash pr author <tab>
+v: list
+v: show
+#+end_example
+
+Further developing to:
+
+#+begin_example
+$ clunk stash pr author list
+| username       | display-name   | <other fields> |
+|----------------+----------------+----------------|
+| alice.aliceton | Alice Aliceton | ...            |
+| bob.bobson     | Bob Bobson     | ...            |
+#+end_example
+
+**** TODO Use repeatable =-v= argument to increase logging verbosity
+
+*** 3. Molecule
+
+Roughly:
+1. Expand uses for Stash.
+2. Possibly include other APIs.
+
+*** 4. Speck
+
+1. Break out data sources into their own plugins.
+2. Create a standardized mechanism to consume plugins.  This will use =stdin=
+   and =stdout= pipes / sockets to communicate, allowing any ecosystem to
+   provide plugins for Clunk, and not just something that happens to be able to
+   link to this Rust program today.
+   a. Send commands to plugins to gather data.
+   b. Receive data from plugins.
+   c. Receive errors from plugins.
+   d. Query plugin for capabilities.
+   e. Define registration configuration for plugins.
+   f. Provide plugin with configuration.
+
+*** 5. Mote
+
+Add lots of plugins.
+
+* COMMENT
+
+#  LocalWords:  Clunk
